@@ -1,69 +1,67 @@
 package array
 
-import (	
+import (
 	"errors"
 	"fmt"
 )
 
-type ListaArray struct {
-	data []int
-	size int
+type ArrayList struct {
+	data     []int
+	size     int
 	capacity int
-	curr int
+	curr     int
 }
 
 // constructor
-func NewListaArray() (*ListaArray) {
-	return &ListaArray{
-		size: 0,
+func NewArrayList() *ArrayList {
+	return &ArrayList{
+		size:     0,
 		capacity: 10,
-		curr: 0,
-		data: make([]int, 10),
+		curr:     0,
+		data:     make([]int, 10),
 	}
 }
 
 // metodos
-func (lista ListaArray) Length() (int) {
+func (lista ArrayList) Length() int {
 	return lista.size
 }
 
-func (lista *ListaArray) Clear() {
+func (lista *ArrayList) Clear() {
 	lista.size = 0
 	lista.curr = 0
-	// 10 | 20 | 30 | 40 curr=2 size=4
-	// 10 | 20 | 30 | 40 curr=0 size=0
 }
 
-func (lista *ListaArray) MoveToPos(pos int) (err error) {
+func (lista *ArrayList) MoveToPos(pos int) (err error) {
 	if pos < 0 || pos > lista.size {
 		err = errors.New("posicion fuera de rango")
 	}
-	
+
 	lista.curr = pos
 	return
 }
 
-func (lista *ListaArray) MoveToStart() {
+func (lista *ArrayList) MoveToStart() {
 	lista.curr = 0
 }
 
-func (lista *ListaArray) MoveToEnd() {
+func (lista *ArrayList) MoveToEnd() {
 	lista.curr = lista.size - 1
 }
 
-func (lista *ListaArray) Prev() {
+func (lista *ArrayList) Prev() {
 	if lista.curr != 0 {
 		lista.curr--
 	}
 }
 
-func (lista *ListaArray) Next() {
-	if lista.curr < lista.size - 1 {
+func (lista *ArrayList) Next() {
+	if lista.curr < lista.size-1 {
 		lista.curr++
 	}
 }
 
-func (lista ListaArray) GetValue() (valor int, err error) {
+func (lista ArrayList) GetValue() (valor int, err error) {
 	// O(1)
 	if lista.size == 0 {
 		err = errors.New("lista vacia")
@@ -73,7 +71,7 @@ func (lista ListaArray) GetValue() (valor int, err error) {
 	return
 }
 
-func (lista *ListaArray) Append(valor int) (err error) {
+func (lista *ArrayList) Append(valor int) (err error) {
 	// O(1)
 	if lista.size > lista.capacity {
 		err = errors.New("capacidad excedida")
@@ -84,28 +82,28 @@ func (lista *ListaArray) Append(valor int) (err error) {
 	return
 }
 
-func (lista *ListaArray) Remove() (valor int, err error) {
+func (lista *ArrayList) Remove() (valor int, err error) {
 	// O(n)
 	if lista.size == 0 {
 		err = errors.New("lista vacia")
-	} 
+	}
 
 	valor = lista.data[lista.curr]
 	for i := lista.curr; i <= lista.size; i++ {
-		lista.data[i] = lista.data[i + 1]
-	} 
-	lista.size--  
+		lista.data[i] = lista.data[i+1]
+	}
+	lista.size--
 	return
 }
 
-func (lista *ListaArray) Insert(valor int) (err error) {
+func (lista *ArrayList) Insert(valor int) (err error) {
 	// O(n)
 	if lista.size >= lista.capacity {
 		err = errors.New("capacidad excedida")
 	}
 
 	for i := lista.size; i > lista.curr; i-- {
-		lista.data[i] = lista.data[i - 1]
+		lista.data[i] = lista.data[i-1]
 	}
 
 	lista.data[lista.curr] = valor
@@ -113,8 +111,8 @@ func (lista *ListaArray) Insert(valor int) (err error) {
 	return
 }
 
-func (lista *ListaArray) Find(valor int) (int) {
-	// implementar linear search -> O(n)
+func (lista *ArrayList) Find(valor int) int {
+	// implementa linear search -> O(n)
 	lista.MoveToStart()
 	for i := lista.curr; i < lista.size; i++ {
 		valor_actual, _ := lista.GetValue()
@@ -128,6 +126,7 @@ func (lista *ListaArray) Find(valor int) (int) {
 	return -1
 }
 
-func (lista ListaArray) String() (string) {
+func (lista ArrayList) String() string {
+	// metodo similar al toString() de Java
 	return fmt.Sprintf("Data: %v\nCurrent: %v", lista.data, lista.curr)
 }

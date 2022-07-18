@@ -3,7 +3,7 @@ package array
 import "testing"
 
 func TestListaVacia(t *testing.T) {
-	lista := NewArrayList()
+	lista := NewArrayList(5)
 
 	// Tendra un size == 0
 	if lista.Length() != 0 {
@@ -12,11 +12,8 @@ func TestListaVacia(t *testing.T) {
 
 }
 
-// 10 | 20
-// 0  | 1
-
 func TestAppend(t *testing.T) {
-	lista := NewArrayList()
+	lista := NewArrayList(5)
 
 	lista.Append(10)
 	lista.Append(20)
@@ -40,7 +37,7 @@ func TestAppend(t *testing.T) {
 }
 
 func TestRemove(t *testing.T) {
-	lista := NewArrayList()
+	lista := NewArrayList(5)
 
 	lista.Append(10)
 	lista.Append(20)
@@ -82,7 +79,7 @@ func TestRemove(t *testing.T) {
 }
 
 func TestClear(t *testing.T) {
-	lista := NewArrayList()
+	lista := NewArrayList(5)
 
 	lista.Append(10)
 	lista.Append(20)
@@ -94,7 +91,7 @@ func TestClear(t *testing.T) {
 }
 
 func TestMoveNext(t *testing.T) {
-	lista := NewArrayList()
+	lista := NewArrayList(5)
 
 	lista.Append(10)
 	lista.Append(20)
@@ -122,7 +119,7 @@ func TestMoveNext(t *testing.T) {
 
 func TestMovePrev(t *testing.T) {
 
-	lista := NewArrayList()
+	lista := NewArrayList(5)
 
 	lista.Append(10)
 	lista.Append(20)
@@ -155,7 +152,7 @@ func TestMovePrev(t *testing.T) {
 }
 
 func TestInsert(t *testing.T) {
-	lista := NewArrayList()
+	lista := NewArrayList(5)
 	lista.Append(10)
 	lista.Append(30)
 
@@ -179,7 +176,7 @@ func TestInsert(t *testing.T) {
 }
 
 func TestFind(t *testing.T) {
-	lista := NewArrayList()
+	lista := NewArrayList(5)
 	lista.Append(10)  // 0
 	lista.Append(20)  // 1
 	lista.Append(30)  // 2

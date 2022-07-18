@@ -13,12 +13,12 @@ type ArrayList struct {
 }
 
 // constructor
-func NewArrayList() *ArrayList {
+func NewArrayList(capacidad int) *ArrayList {
 	return &ArrayList{
 		size:     0,
-		capacity: 10,
+		capacity: capacidad,
 		curr:     0,
-		data:     make([]int, 10),
+		data:     make([]int, capacidad),
 	}
 }
 
@@ -38,7 +38,7 @@ func (lista *ArrayList) MoveToPos(pos int) (err error) {
 	}
 
 	lista.curr = pos
-	return
+	return err
 }
 
 func (lista *ArrayList) MoveToStart() {

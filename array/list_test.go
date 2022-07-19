@@ -24,13 +24,13 @@ func TestAppend(t *testing.T) {
 	}
 
 	lista.MoveToPos(0) // lista.MoveToStart()
-	valor_1, _ := lista.GetValue()
+	valor_1, _ := lista.CurrentElement()
 	if valor_1 != 10 {
 		t.Error("Esperado 10, obtenido", valor_1)
 	}
 
 	lista.MoveToPos(1)
-	valor_2, _ := lista.GetValue()
+	valor_2, _ := lista.CurrentElement()
 	if valor_2 != 20 {
 		t.Error("Esperado 20, obtenido", valor_2)
 	}
@@ -99,19 +99,19 @@ func TestMoveNext(t *testing.T) {
 
 	lista.MoveToStart()
 	lista.Next()
-	primero, _ := lista.GetValue()
+	primero, _ := lista.CurrentElement()
 	if primero != 20 {
 		t.Error("Esperado 20, obtenido", primero)
 	}
 
 	lista.Next()
-	segundo, _ := lista.GetValue()
+	segundo, _ := lista.CurrentElement()
 	if segundo != 30 {
 		t.Error("Esperado 30, obtenido", segundo)
 	}
 
 	lista.Next()
-	tercero, _ := lista.GetValue()
+	tercero, _ := lista.CurrentElement()
 	if tercero != 30 {
 		t.Error("Esperado 30, obtenido ", tercero)
 	}
@@ -126,26 +126,26 @@ func TestMovePrev(t *testing.T) {
 	lista.Append(30)
 	lista.MoveToEnd()
 
-	primero, _ := lista.GetValue()
+	primero, _ := lista.CurrentElement()
 	if primero != 30 {
 		t.Error("Esperado 30, obtenido", primero)
 	}
 
 	lista.Prev()
-	segundo, _ := lista.GetValue()
+	segundo, _ := lista.CurrentElement()
 	if segundo != 20 {
 		t.Error("Esperado 20, obtenido", segundo)
 	}
 
 	lista.Prev()
-	tercero, _ := lista.GetValue()
+	tercero, _ := lista.CurrentElement()
 	if tercero != 10 {
 		t.Error("Esperado 10 obtenido", tercero)
 	}
 
 	// Ese es el comportamiento del libro: al llegar al principio no retrocede mas
 	lista.Prev()
-	tercero_2, _ := lista.GetValue()
+	tercero_2, _ := lista.CurrentElement()
 	if tercero_2 != 10 {
 		t.Error("Esperado 10 obtenido", tercero_2)
 	}
@@ -159,7 +159,7 @@ func TestInsert(t *testing.T) {
 	lista.MoveToPos(1)
 	lista.Insert(20)
 
-	valor, _ := lista.GetValue()
+	valor, _ := lista.CurrentElement()
 	if lista.Length() != 3 {
 		t.Error("Esperados 3 elementos, obtenido", lista.Length())
 	}
@@ -169,7 +169,7 @@ func TestInsert(t *testing.T) {
 	}
 
 	lista.MoveToEnd()
-	valor, _ = lista.GetValue()
+	valor, _ = lista.CurrentElement()
 	if valor != 30 {
 		t.Error("Esperado 30, obtenido ", valor)
 	}

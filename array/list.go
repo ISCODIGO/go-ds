@@ -33,11 +33,12 @@ func (lista *ArrayList) Clear() {
 }
 
 func (lista *ArrayList) MoveToPos(pos int) (err error) {
-	if pos < 0 || pos > lista.size {
+	if pos < 0 || pos >= lista.size {
 		err = errors.New("posicion fuera de rango")
+	} else {		
+		lista.curr = pos
 	}
-
-	lista.curr = pos
+	
 	return err
 }
 
@@ -61,7 +62,7 @@ func (lista *ArrayList) Next() {
 	}
 }
 
-func (lista ArrayList) GetValue() (valor int, err error) {
+func (lista ArrayList) CurrentElement() (valor int, err error) {
 	// O(1)
 	if lista.size == 0 {
 		err = errors.New("lista vacia")
@@ -115,7 +116,7 @@ func (lista *ArrayList) Find(valor int) int {
 	// implementa linear search -> O(n)
 	lista.MoveToStart()
 	for i := lista.curr; i < lista.size; i++ {
-		valor_actual, _ := lista.GetValue()
+		valor_actual, _ := lista.CurrentElement()
 
 		if valor_actual == valor {
 			return lista.curr

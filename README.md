@@ -3,6 +3,7 @@ Estructuras de datos escritas en Go con las ideas surgidas del libro *Data Struc
 
 ## Estructuras
 - listas: ArrayList y LinkedList
+- pilas: StackArray y StackLL
 
 ## Referencias
 - [1] https://people.cs.vt.edu/shaffer/Book/

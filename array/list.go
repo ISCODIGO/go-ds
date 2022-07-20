@@ -5,6 +5,10 @@ import (
 	"fmt"
 )
 
+var ErrEmptyList = errors.New("lista vacia")
+var ErrFullList = errors.New("lista llena")
+var ErrOutOfRangeList = errors.New("fuera de rango")
+
 type ArrayList struct {
 	data     []int
 	size     int
@@ -34,7 +38,7 @@ func (lista *ArrayList) Clear() {
 
 func (lista *ArrayList) MoveToPos(pos int) (err error) {
 	if pos < 0 || pos >= lista.size {
-		err = errors.New("posicion fuera de rango")
+		err = ErrOutOfRangeList
 	} else {		
 		lista.curr = pos
 	}
@@ -65,7 +69,7 @@ func (lista *ArrayList) Next() {
 func (lista ArrayList) CurrentElement() (valor int, err error) {
 	// O(1)
 	if lista.size == 0 {
-		err = errors.New("lista vacia")
+		err = ErrEmptyList
 	} else {
 		valor = lista.data[lista.curr]
 	}
@@ -75,7 +79,8 @@ func (lista ArrayList) CurrentElement() (valor int, err error) {
 func (lista *ArrayList) Append(valor int) (err error) {
 	// O(1)
 	if lista.size > lista.capacity {
-		err = errors.New("capacidad excedida")
+		err = ErrFullList
+		return
 	}
 
 	lista.data[lista.size] = valor
@@ -86,7 +91,8 @@ func (lista *ArrayList) Append(valor int) (err error) {
 func (lista *ArrayList) Remove() (valor int, err error) {
 	// O(n)
 	if lista.size == 0 {
-		err = errors.New("lista vacia")
+		err = ErrEmptyList
+		return
 	}
 
 	valor = lista.data[lista.curr]
@@ -100,7 +106,8 @@ func (lista *ArrayList) Remove() (valor int, err error) {
 func (lista *ArrayList) Insert(valor int) (err error) {
 	// O(n)
 	if lista.size >= lista.capacity {
-		err = errors.New("capacidad excedida")
+		err = ErrFullList
+		return
 	}
 
 	for i := lista.size; i > lista.curr; i-- {

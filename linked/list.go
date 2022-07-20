@@ -4,6 +4,10 @@ import (
 	"errors"
 )
 
+var ErrEmptyLinkedList = errors.New("lista enlazada vacia")
+var ErrFullLinkedList = errors.New("lista enlazada llena")
+var ErrOutOfRangeLinkedList = errors.New("fuera de rango")
+
 type Node struct {
 	element int  // dato almacenado
 	next *Node   // enlace al siguiente nodo
@@ -26,10 +30,14 @@ type LinkedList struct {
 
 // constructor (inicializador)
 func NewLinkedList() (*LinkedList) {
-	return &LinkedList{}
+	return &LinkedList{
+		size: 0,
+		curr: nil,
+		head: nil,
+		tail: nil,
+	}
 }
 
-// metodos
 
 func (lista LinkedList) isEmpty() (bool) {
 	return lista.head == nil
@@ -37,6 +45,7 @@ func (lista LinkedList) isEmpty() (bool) {
 
 // Remueve todos los nodos de la lista
 func (lista *LinkedList) Clear() {
+	// O(1)
 	lista.curr = nil
 	lista.head = nil
 	lista.tail = nil
@@ -45,6 +54,7 @@ func (lista *LinkedList) Clear() {
 
 // Agrega un nodo al final de la lista (tail)
 func (lista *LinkedList) Append(e int) (node *Node) {
+	// O(1)
 	node = NewNode(e)
 
 	if lista.isEmpty() {
@@ -61,6 +71,7 @@ func (lista *LinkedList) Append(e int) (node *Node) {
 
 // Agrega un nodo desplazando al nodo actual (curr)
 func (lista *LinkedList) Insert(e int) (node *Node){
+	// O(n)
 	if lista.curr == lista.tail {		
 		return lista.Append(e)  // la funcionalidad ya existe
 	}
@@ -73,7 +84,7 @@ func (lista *LinkedList) Insert(e int) (node *Node){
 		lista.head = node
 	} else {
 		// nodos interiores
-		lista.Prev()
+		lista.Prev()  // O(n)
 		lista.curr.next = node
 	}
 
@@ -84,7 +95,7 @@ func (lista *LinkedList) Insert(e int) (node *Node){
 // Remueve el nodo actual (curr)
 func (lista *LinkedList) Remove() (node *Node, err error) {
 	if lista.isEmpty() {
-		err = errors.New("lista vacia")
+		err = ErrEmptyLinkedList
 		return  // como las salidas llevan nombre esto es posible
 	} 
 	
@@ -96,13 +107,9 @@ func (lista *LinkedList) Remove() (node *Node, err error) {
 		lista.head = lista.curr
 	} else {
 		// Cualquier otro nodo: encontrar el nodo previo a curr
-		temp := lista.head
-		for temp.next != lista.curr {
-			temp = temp.next 
-		}
-
-		temp.next = temp.next.next  // se elimina al nodo sobrescribiendo los enlaces de la lista
-		lista.curr = temp.next  // opcional: para que no haga referencia a un nodo que "no existe"
+		lista.Prev()
+		lista.curr.next = lista.curr.next.next // eliminar el nodo: lista.curr.next
+		lista.curr = lista.curr.next  // opcional: para que no haga referencia a un nodo que "no existe"
 	}
 
 	lista.size--
@@ -138,6 +145,7 @@ func (lista *LinkedList) MoveToPos(pos int) (err error) {
 
 // Retrocede un nodo
 func (lista *LinkedList) Prev() {
+	// O(n)
 	if lista.isEmpty() || lista.curr == lista.head {
 		return  // aqui return es una secuencia de escape
 	}

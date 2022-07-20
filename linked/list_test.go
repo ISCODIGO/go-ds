@@ -173,7 +173,7 @@ func TestClear(t *testing.T) {
 	}
 
 	if lista.head != lista.tail {
-		t.Error("head == tail")
+		t.Error("head == tail : ", lista.head, ",", lista.tail)
 	}
 }
 

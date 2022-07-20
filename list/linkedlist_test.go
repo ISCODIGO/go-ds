@@ -1,4 +1,4 @@
-package linked
+package list
 
 import (
 	"fmt"
@@ -52,7 +52,7 @@ func TestLLAppend(t *testing.T) {
 	}	
 }
 
-func TestMove(t *testing.T) {
+func TestLL_move(t *testing.T) {
 	lista := crearLL(4)  // 10->20->30->40
 
 	lista.MoveToStart()  // 10
@@ -89,7 +89,7 @@ func TestMove(t *testing.T) {
 	}
 }
 
-func TestMovePos(t *testing.T) {
+func TestLL_MovePos(t *testing.T) {
 	lista := crearLL(5)  // 10->20->30->40->50
 	lista.MoveToStart()
 
@@ -111,7 +111,7 @@ func TestMovePos(t *testing.T) {
 	}
 }
 
-func TestLLInsert(t *testing.T) {
+func TestLL_Insert(t *testing.T) {
 	lista := crearLL(3)  // 10->20->30
 
 	// 11->10->20->30
@@ -164,7 +164,7 @@ func TestLLInsert(t *testing.T) {
 	}
 }
 
-func TestClear(t *testing.T) {
+func TestLL_Clear(t *testing.T) {
 	lista := crearLL(3)
 	lista.Clear()
 
@@ -177,7 +177,7 @@ func TestClear(t *testing.T) {
 	}
 }
 
-func TestLLRemove(t *testing.T) {
+func TestLL_Remove(t *testing.T) {
 	lista := crearLL(5)  // 10->20->30->40->50
 
 	// 20->30->40->50

@@ -1,8 +1,8 @@
-package array
+package list
 
 import "testing"
 
-func TestListaVacia(t *testing.T) {
+func TestAL_Vacia(t *testing.T) {
 	lista := NewArrayList(5)
 
 	// Tendra un size == 0
@@ -12,7 +12,7 @@ func TestListaVacia(t *testing.T) {
 
 }
 
-func TestAppend(t *testing.T) {
+func TestAL_Append(t *testing.T) {
 	lista := NewArrayList(5)
 
 	lista.Append(10)
@@ -36,7 +36,7 @@ func TestAppend(t *testing.T) {
 	}
 }
 
-func TestRemove(t *testing.T) {
+func TestAL_Remove(t *testing.T) {
 	lista := NewArrayList(5)
 
 	lista.Append(10)
@@ -78,7 +78,7 @@ func TestRemove(t *testing.T) {
 	}
 }
 
-func TestClear(t *testing.T) {
+func TestAL_Clear(t *testing.T) {
 	lista := NewArrayList(5)
 
 	lista.Append(10)
@@ -90,7 +90,7 @@ func TestClear(t *testing.T) {
 	}
 }
 
-func TestMoveNext(t *testing.T) {
+func TestAL_Next(t *testing.T) {
 	lista := NewArrayList(5)
 
 	lista.Append(10)
@@ -117,7 +117,7 @@ func TestMoveNext(t *testing.T) {
 	}
 }
 
-func TestMovePrev(t *testing.T) {
+func TestAL_Prev(t *testing.T) {
 
 	lista := NewArrayList(5)
 
@@ -151,7 +151,7 @@ func TestMovePrev(t *testing.T) {
 	}
 }
 
-func TestInsert(t *testing.T) {
+func TestAL_Insert(t *testing.T) {
 	lista := NewArrayList(5)
 	lista.Append(10)
 	lista.Append(30)
@@ -175,7 +175,7 @@ func TestInsert(t *testing.T) {
 	}
 }
 
-func TestFind(t *testing.T) {
+func TestAL_Find(t *testing.T) {
 	lista := NewArrayList(5)
 	lista.Append(10)  // 0
 	lista.Append(20)  // 1

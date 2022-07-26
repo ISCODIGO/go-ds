@@ -2,14 +2,15 @@ package stack
 
 import "errors"
 
-var ErrStackUnderflow = errors.New("lista vacia")
-var ErrStackOverflow = errors.New("lista llena")
+// Sugerencia: Go Effective
+var ErrStackUnderflow = errors.New("pila vacia")
+var ErrStackOverflow = errors.New("pila llena")
 
 type ArrayStack struct {
 	top int
 	size int
 	capacity int
-	data []int
+	data []int  // slice
 }
 
 func NewArrayStack(capacidad int) (*ArrayStack) {
@@ -40,6 +41,7 @@ func (pila *ArrayStack) Push(e int) (err error) {
 	}
 
 	pila.top++
+	pila.size++
 	pila.data[pila.top] = e
 
 	return err  // devuelve nil al no inicializarse
@@ -52,17 +54,11 @@ func (pila ArrayStack) Top() (e int, err error) {
 	}
 	
 	e = pila.data[pila.top]
-	pila.size++
 	return e, err
 }
 
 func (pila *ArrayStack) Pop() (e int, err error) {
-	if pila.isEmpty() {
-		err = ErrStackUnderflow
-		return  // devuelve e y err
-	}
-
-	e = pila.data[pila.top]
+	e, err = pila.Top()
 	pila.top--
 	pila.size--
 	return e, err

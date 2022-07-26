@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>array: Go Coverage Report</title>
+		<title>list: Go Coverage Report</title>
 		<style>
 			body {
 				background: black;
@@ -55,9 +55,11 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/ISCODIGO/go-ds/array/list.go (88.9%)</option>
+				<option value="file0">github.com/ISCODIGO/go-ds/list/arraylist.go (85.4%)</option>
 				
-				<option value="file1">github.com/ISCODIGO/go-ds/linked/list.go (84.9%)</option>
+				<option value="file1">github.com/ISCODIGO/go-ds/list/linkedlist.go (84.5%)</option>
+				
+				<option value="file2">github.com/ISCODIGO/go-ds/stack/stack.go (95.7%)</option>
 				
 				</select>
 			</div>
@@ -71,12 +73,16 @@
 		</div>
 		<div id="content">
 		
-		<pre class="file" id="file0" style="display: none">package array
+		<pre class="file" id="file0" style="display: none">package list
 
 import (
         "errors"
         "fmt"
 )
+
+var ErrEmptyList = errors.New("lista vacia")
+var ErrFullList = errors.New("lista llena")
+var ErrOutOfRangeList = errors.New("fuera de rango")
 
 type ArrayList struct {
         data     []int
@@ -107,7 +113,7 @@ func (lista *ArrayList) Clear() <span class="cov8" title="1">{
 
 func (lista *ArrayList) MoveToPos(pos int) (err error) <span class="cov8" title="1">{
         if pos &lt; 0 || pos &gt;= lista.size </span><span class="cov0" title="0">{
-                err = errors.New("posicion fuera de rango")
+                err = ErrOutOfRangeList
         }</span> else<span class="cov8" title="1"> {                
                 lista.curr = pos
         }</span>
@@ -138,7 +144,7 @@ func (lista *ArrayList) Next() <span class="cov8" title="1">{
 func (lista ArrayList) CurrentElement() (valor int, err error) <span class="cov8" title="1">{
         // O(1)
         if lista.size == 0 </span><span class="cov0" title="0">{
-                err = errors.New("lista vacia")
+                err = ErrEmptyList
         }</span> else<span class="cov8" title="1"> {
                 valor = lista.data[lista.curr]
         }</span>
@@ -148,7 +154,8 @@ func (lista ArrayList) CurrentElement() (valor int, err error) <span class="cov8
 func (lista *ArrayList) Append(valor int) (err error) <span class="cov8" title="1">{
         // O(1)
         if lista.size &gt; lista.capacity </span><span class="cov0" title="0">{
-                err = errors.New("capacidad excedida")
+                err = ErrFullList
+                return
         }</span>
 
         <span class="cov8" title="1">lista.data[lista.size] = valor
@@ -159,7 +166,8 @@ func (lista *ArrayList) Append(valor int) (err error) <span class="cov8" title="
 func (lista *ArrayList) Remove() (valor int, err error) <span class="cov8" title="1">{
         // O(n)
         if lista.size == 0 </span><span class="cov8" title="1">{
-                err = errors.New("lista vacia")
+                err = ErrEmptyList
+                return
         }</span>
 
         <span class="cov8" title="1">valor = lista.data[lista.curr]
@@ -173,7 +181,8 @@ func (lista *ArrayList) Remove() (valor int, err error) <span class="cov8" title
 func (lista *ArrayList) Insert(valor int) (err error) <span class="cov8" title="1">{
         // O(n)
         if lista.size &gt;= lista.capacity </span><span class="cov0" title="0">{
-                err = errors.New("capacidad excedida")
+                err = ErrFullList
+                return
         }</span>
 
         <span class="cov8" title="1">for i := lista.size; i &gt; lista.curr; i-- </span><span class="cov8" title="1">{
@@ -206,11 +215,15 @@ func (lista ArrayList) String() string <span class="cov0" title="0">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file1" style="display: none">package linked
+		<pre class="file" id="file1" style="display: none">package list
 
 import (
         "errors"
 )
+
+var ErrEmptyLinkedList = errors.New("lista enlazada vacia")
+var ErrFullLinkedList = errors.New("lista enlazada llena")
+var ErrOutOfRangeLinkedList = errors.New("fuera de rango")
 
 type Node struct {
         element int  // dato almacenado
@@ -234,10 +247,14 @@ type LinkedList struct {
 
 // constructor (inicializador)
 func NewLinkedList() (*LinkedList) <span class="cov8" title="1">{
-        return &amp;LinkedList{}
+        return &amp;LinkedList{
+                size: 0,
+                curr: nil,
+                head: nil,
+                tail: nil,
+        }
 }</span>
 
-// metodos
 
 func (lista LinkedList) isEmpty() (bool) <span class="cov8" title="1">{
         return lista.head == nil
@@ -245,6 +262,7 @@ func (lista LinkedList) isEmpty() (bool) <span class="cov8" title="1">{
 
 // Remueve todos los nodos de la lista
 func (lista *LinkedList) Clear() <span class="cov8" title="1">{
+        // O(1)
         lista.curr = nil
         lista.head = nil
         lista.tail = nil
@@ -253,6 +271,7 @@ func (lista *LinkedList) Clear() <span class="cov8" title="1">{
 
 // Agrega un nodo al final de la lista (tail)
 func (lista *LinkedList) Append(e int) (node *Node) <span class="cov8" title="1">{
+        // O(1)
         node = NewNode(e)
 
         if lista.isEmpty() </span><span class="cov8" title="1">{
@@ -269,6 +288,7 @@ func (lista *LinkedList) Append(e int) (node *Node) <span class="cov8" title="1"
 
 // Agrega un nodo desplazando al nodo actual (curr)
 func (lista *LinkedList) Insert(e int) (node *Node)<span class="cov8" title="1">{
+        // O(n)
         if lista.curr == lista.tail </span><span class="cov8" title="1">{                
                 return lista.Append(e)  // la funcionalidad ya existe
         }</span>
@@ -281,7 +301,7 @@ func (lista *LinkedList) Insert(e int) (node *Node)<span class="cov8" title="1">
                 lista.head = node
         }</span> else<span class="cov8" title="1"> {
                 // nodos interiores
-                lista.Prev()
+                lista.Prev()  // O(n)
                 lista.curr.next = node
         }</span>
 
@@ -292,7 +312,7 @@ func (lista *LinkedList) Insert(e int) (node *Node)<span class="cov8" title="1">
 // Remueve el nodo actual (curr)
 func (lista *LinkedList) Remove() (node *Node, err error) <span class="cov8" title="1">{
         if lista.isEmpty() </span><span class="cov8" title="1">{
-                err = errors.New("lista vacia")
+                err = ErrEmptyLinkedList
                 return  // como las salidas llevan nombre esto es posible
         }</span> 
         
@@ -304,14 +324,10 @@ func (lista *LinkedList) Remove() (node *Node, err error) <span class="cov8" tit
                 lista.head = lista.curr
         }</span> else<span class="cov8" title="1"> {
                 // Cualquier otro nodo: encontrar el nodo previo a curr
-                temp := lista.head
-                for temp.next != lista.curr </span><span class="cov8" title="1">{
-                        temp = temp.next 
-                }</span>
-
-                <span class="cov8" title="1">temp.next = temp.next.next  // se elimina al nodo sobrescribiendo los enlaces de la lista
-                lista.curr = temp.next</span>  // opcional: para que no haga referencia a un nodo que "no existe"
-        }
+                lista.Prev()
+                lista.curr.next = lista.curr.next.next // eliminar el nodo: lista.curr.next
+                lista.curr = lista.curr.next  // opcional: para que no haga referencia a un nodo que "no existe"
+        }</span>
 
         <span class="cov8" title="1">lista.size--
         return node, err</span>
@@ -346,6 +362,7 @@ func (lista *LinkedList) MoveToPos(pos int) (err error) <span class="cov8" title
 
 // Retrocede un nodo
 func (lista *LinkedList) Prev() <span class="cov8" title="1">{
+        // O(n)
         if lista.isEmpty() || lista.curr == lista.head </span><span class="cov8" title="1">{
                 return  // aqui return es una secuencia de escape
         }</span>
@@ -400,6 +417,76 @@ func (lista LinkedList) CurrentElement() (e int, err error) <span class="cov8" t
 
 
 </pre>
+		
+		<pre class="file" id="file2" style="display: none">package stack
+
+import "errors"
+
+var ErrStackUnderflow = errors.New("lista vacia")
+var ErrStackOverflow = errors.New("lista llena")
+
+type ArrayStack struct {
+        top int
+        size int
+        capacity int
+        data []int
+}
+
+func NewArrayStack(capacidad int) (*ArrayStack) <span class="cov8" title="1">{
+        return &amp;ArrayStack{
+                top: -1,
+                size: 0,
+                capacity: capacidad,
+                data: make([]int, capacidad),
+        }
+}</span>
+
+func (pila *ArrayStack) isEmpty() (bool) <span class="cov8" title="1">{
+        return pila.top == -1
+}</span>
+
+func (pila *ArrayStack) isFull() (bool)<span class="cov8" title="1">{
+        return pila.top == pila.capacity - 1
+}</span>
+
+func (pila *ArrayStack) Clear() <span class="cov0" title="0">{
+        pila.top = -1
+}</span>
+
+func (pila *ArrayStack) Push(e int) (err error) <span class="cov8" title="1">{
+        if pila.isFull() </span><span class="cov8" title="1">{
+                err = ErrStackOverflow
+                return err
+        }</span>
+
+        <span class="cov8" title="1">pila.top++
+        pila.data[pila.top] = e
+
+        return err</span>  // devuelve nil al no inicializarse
+}
+
+func (pila ArrayStack) Top() (e int, err error) <span class="cov8" title="1">{
+        if pila.isEmpty() </span><span class="cov8" title="1">{
+                err = ErrStackUnderflow
+                return  // devuelve e y err
+        }</span>
+        
+        <span class="cov8" title="1">e = pila.data[pila.top]
+        pila.size++
+        return e, err</span>
+}
+
+func (pila *ArrayStack) Pop() (e int, err error) <span class="cov8" title="1">{
+        if pila.isEmpty() </span><span class="cov8" title="1">{
+                err = ErrStackUnderflow
+                return  // devuelve e y err
+        }</span>
+
+        <span class="cov8" title="1">e = pila.data[pila.top]
+        pila.top--
+        pila.size--
+        return e, err</span>
+}</pre>
 		
 		</div>
 	</body>

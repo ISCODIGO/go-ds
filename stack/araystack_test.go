@@ -19,6 +19,14 @@ func TestArrayStack_add(t *testing.T) {
 	pila.Push(20)
 	pila.Push(30)
 
+	/*
+	
+	30 <-- cima
+	20
+	10
+
+	*/
+
 	cima, _ := pila.Top()
 	if cima != 30 {
 		t.Errorf(mensaje_test, 30, cima)
@@ -35,21 +43,26 @@ func TestArrayStack_remove(t *testing.T) {
 	pila.Push(10)
 	pila.Push(20)
 
+	// 20x | 10
+
 	removido1, _ := pila.Pop()
 	if removido1 != 20 {
 		t.Errorf(mensaje_test, 20, removido1)
 	}
 
+	// 10x
 	cima, _ := pila.Top()
 	if cima != 10 {
 		t.Errorf(mensaje_test, 10, cima)
 	}
 
+	// pila vacia
 	removido2, _ := pila.Pop()
 	if removido2 != 10 {
 		t.Errorf(mensaje_test, 10, removido2)
 	}
 
+	// pila vacia
 	_, err := pila.Pop()
 	if err == nil {
 		t.Error("Pila debe estar vacia")

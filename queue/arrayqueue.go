@@ -26,6 +26,7 @@ func NewArrayQueue(capacity int) *ArrayQueue {
 }
 
 func (q ArrayQueue) next(pos int) int {
+	// esto nos da la percepcion circular
 	return (pos + 1) % q.capacity
 }
 

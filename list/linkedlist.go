@@ -182,7 +182,7 @@ func (lista LinkedList) CurrentPosition() (int) {
 
 	temp := lista.head
 	pos := 0
-	if temp.next != lista.curr {
+	for temp.next != lista.curr {
 		temp = temp.next
 		pos++
 	}

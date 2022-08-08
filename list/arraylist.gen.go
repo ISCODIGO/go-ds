@@ -1,35 +1,38 @@
 package list
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/ISCODIGO/go-ds/generic"
+)
 
-type ArrayList struct {
-	data     []int
+type ArrayListGeneric[T comparable] struct {
+	data     []T
 	size     int
 	capacity int
 	curr     int
 }
 
 // constructor
-func NewArrayList(capacidad int) *ArrayList {
-	return &ArrayList{
+func NewArrayListGeneric[T comparable](capacidad int) *ArrayListGeneric[T] {
+	return &ArrayListGeneric[T] {
 		size:     0,
 		capacity: capacidad,
 		curr:     0,
-		data:     make([]int, capacidad),
+		data:     make([]T, capacidad),
 	}
 }
 
 // metodos
-func (lista ArrayList) Length() int {
+func (lista ArrayListGeneric[T]) Length() int {
 	return lista.size
 }
 
-func (lista *ArrayList) Clear() {
+func (lista *ArrayListGeneric[T]) Clear() {
 	lista.size = 0
 	lista.curr = 0
 }
 
-func (lista *ArrayList) MoveToPos(pos int) (err error) {
+func (lista *ArrayListGeneric[T]) MoveToPos(pos int) (err error) {
 	if pos < 0 || pos >= lista.size {
 		err = ErrOutOfRangeList
 	} else {		
@@ -39,27 +42,27 @@ func (lista *ArrayList) MoveToPos(pos int) (err error) {
 	return err
 }
 
-func (lista *ArrayList) MoveToStart() {
+func (lista *ArrayListGeneric[T]) MoveToStart() {
 	lista.curr = 0
 }
 
-func (lista *ArrayList) MoveToEnd() {
+func (lista *ArrayListGeneric[T]) MoveToEnd() {
 	lista.curr = lista.size - 1
 }
 
-func (lista *ArrayList) Prev() {
+func (lista *ArrayListGeneric[T]) Prev() {
 	if lista.curr != 0 {
 		lista.curr--
 	}
 }
 
-func (lista *ArrayList) Next() {
+func (lista *ArrayListGeneric[T]) Next() {
 	if lista.curr < lista.size-1 {
 		lista.curr++
 	}
 }
 
-func (lista ArrayList) CurrentElement() (valor int, err error) {
+func (lista ArrayListGeneric[T]) CurrentElement() (valor T, err error) {
 	// O(1)
 	if lista.size == 0 {
 		err = ErrEmptyList
@@ -69,7 +72,7 @@ func (lista ArrayList) CurrentElement() (valor int, err error) {
 	return
 }
 
-func (lista *ArrayList) Append(valor int) (err error) {
+func (lista *ArrayListGeneric[T]) Append(valor T) (err error) {
 	// O(1)
 	if lista.size > lista.capacity {
 		err = ErrFullList
@@ -81,7 +84,7 @@ func (lista *ArrayList) Append(valor int) (err error) {
 	return
 }
 
-func (lista *ArrayList) Remove() (valor int, err error) {
+func (lista *ArrayListGeneric[T]) Remove() (valor T, err error) {
 	// O(n)
 	if lista.size == 0 {
 		err = ErrEmptyList
@@ -96,7 +99,7 @@ func (lista *ArrayList) Remove() (valor int, err error) {
 	return
 }
 
-func (lista *ArrayList) Insert(valor int) (err error) {
+func (lista *ArrayListGeneric[T]) Insert(valor T) (err error) {
 	// O(n)
 	if lista.size >= lista.capacity {
 		err = ErrFullList
@@ -112,13 +115,13 @@ func (lista *ArrayList) Insert(valor int) (err error) {
 	return
 }
 
-func (lista *ArrayList) Find(valor int) int {
+func (lista *ArrayListGeneric[T]) Find(valor T) int {
 	// implementa linear search -> O(n)
 	lista.MoveToStart()
 	for i := lista.curr; i < lista.size; i++ {
 		valor_actual, _ := lista.CurrentElement()
 
-		if valor_actual == valor {
+		if generic.Equals(valor_actual, valor) {
 			return lista.curr
 		}
 		lista.Next()
@@ -127,7 +130,7 @@ func (lista *ArrayList) Find(valor int) int {
 	return -1
 }
 
-func (lista ArrayList) String() string {
+func (lista ArrayListGeneric[T]) String() string {
 	// metodo similar al toString() de Java
 	return fmt.Sprintf("Data: %v\nCurrent: %v", lista.data, lista.curr)
 }

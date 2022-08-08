@@ -4,10 +4,6 @@ import (
 	"errors"
 )
 
-var ErrEmptyLinkedList = errors.New("lista enlazada vacia")
-var ErrFullLinkedList = errors.New("lista enlazada llena")
-var ErrOutOfRangeLinkedList = errors.New("fuera de rango")
-
 type Node struct {
 	element int  // dato almacenado
 	next *Node   // enlace al siguiente nodo
@@ -95,7 +91,7 @@ func (lista *LinkedList) Insert(e int) (node *Node){
 // Remueve el nodo actual (curr)
 func (lista *LinkedList) Remove() (node *Node, err error) {
 	if lista.isEmpty() {
-		err = ErrEmptyLinkedList
+		err = ErrEmptyList
 		return  // como las salidas llevan nombre esto es posible
 	} 
 	

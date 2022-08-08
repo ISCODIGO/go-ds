@@ -1,5 +1,7 @@
 package list
 
+import "errors"
+
 type List interface {
 	Clear()  // O(1)
 	Length() // O(1)
@@ -15,3 +17,8 @@ type List interface {
 	CurrentPosition()  // Array: O(1) LinkedList: O(n) 
 	CurrentElement()  // O(1)
 }
+
+// Errores comunes en las listas
+var ErrEmptyList = errors.New("lista vacia")
+var ErrFullList = errors.New("lista llena")
+var ErrOutOfRangeList = errors.New("fuera de rango")

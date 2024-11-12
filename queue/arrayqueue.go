@@ -6,10 +6,10 @@ import (
 
 type ArrayQueue struct {
 	capacity int
-	size int
-	front int // frente: posicion para eliminar
-	rear int // fin: posicion a insertar
-	data []int
+	size     int
+	front    int // frente: posicion para eliminar
+	rear     int // fin: posicion a insertar
+	data     []int
 }
 
 var ErrQueueEmpty = errors.New("cola vacia")
@@ -18,10 +18,10 @@ var ErrQueueFull = errors.New("cola llena")
 func NewArrayQueue(capacity int) *ArrayQueue {
 	return &ArrayQueue{
 		capacity: capacity,
-		size: 0,
-		data: make([]int, capacity),
-		front: 0,
-		rear: -1,
+		size:     0,
+		data:     make([]int, capacity),
+		front:    0,
+		rear:     -1,
 	}
 }
 

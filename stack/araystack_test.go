@@ -20,10 +20,10 @@ func TestArrayStack_add(t *testing.T) {
 	pila.Push(30)
 
 	/*
-	
-	30 <-- cima
-	20
-	10
+
+		30 <-- cima
+		20
+		10
 
 	*/
 
@@ -68,4 +68,3 @@ func TestArrayStack_remove(t *testing.T) {
 		t.Error("Pila debe estar vacia")
 	}
 }
-

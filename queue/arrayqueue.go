@@ -15,8 +15,8 @@ type ArrayQueue struct {
 var ErrQueueEmpty = errors.New("cola vacia")
 var ErrQueueFull = errors.New("cola llena")
 
-func NewArrayQueue(capacity int) *ArrayQueue {
-	return &ArrayQueue{
+func New(capacity int) ArrayQueue {
+	return ArrayQueue{
 		capacity: capacity,
 		size:     0,
 		data:     make([]int, capacity),
@@ -36,40 +36,39 @@ func (q *ArrayQueue) Clear() {
 	q.size = 0
 }
 
-func (q *ArrayQueue) Enqueue(e int) (err error) {
-	if q.Length() == q.capacity {
-		err = ErrQueueFull
-		return
+func (q *ArrayQueue) Enqueue(e int) error {
+	if q.Size() == q.capacity {
+		return ErrQueueFull
 	}
 
 	q.rear = q.next(q.rear)
 	q.data[q.rear] = e
 	q.size++
-	return err
+	return nil
 }
 
 func (q *ArrayQueue) Dequeue() (e int, err error) {
-	if q.Length() == 0 {
-		err = ErrQueueEmpty
-		return e, err
-	}
-
-	e = q.data[q.front]
-	q.front = q.next(q.front)
-	q.size--
-	return e, err
-}
-
-func (q *ArrayQueue) Length() int {
-	return q.size
-}
-
-func (q *ArrayQueue) Front() (e int, err error) {
-	if q.Length() == 0 {
+	if q.Size() == 0 {
 		err = ErrQueueEmpty
 		return
 	}
 
 	e = q.data[q.front]
-	return e, err
+	q.front = q.next(q.front)
+	q.size--
+	return
+}
+
+func (q ArrayQueue) Size() int {
+	return q.size
+}
+
+func (q ArrayQueue) Front() (e int, err error) {
+	if q.Size() == 0 {
+		err = ErrQueueEmpty
+		return
+	}
+
+	e = q.data[q.front]
+	return
 }

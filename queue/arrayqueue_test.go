@@ -5,11 +5,11 @@ import "testing"
 const mensaje_test string = "Esperado: %v / Obtenido: %v"
 
 func TestArrayQueue_empty(t *testing.T) {
-	cola := NewArrayQueue(10)
+	cola := New(10)
 	_, err := cola.Front()
 
-	if cola.Length() != 0 {
-		t.Errorf(mensaje_test, 0, cola.Length())
+	if cola.Size() != 0 {
+		t.Errorf(mensaje_test, 0, cola.Size())
 	}
 
 	if err == nil {
@@ -19,15 +19,15 @@ func TestArrayQueue_empty(t *testing.T) {
 }
 
 func TestArrayQueue_add(t *testing.T) {
-	cola := NewArrayQueue(3)
+	cola := New(3)
 	cola.Enqueue(10)
 	cola.Enqueue(20)
 	cola.Enqueue(30)
 
 	// 10 (frente) | 20 | 30
 
-	if cola.Length() != 3 {
-		t.Errorf(mensaje_test, 3, cola.Length())
+	if cola.Size() != 3 {
+		t.Errorf(mensaje_test, 3, cola.Size())
 	}
 
 	frente, _ := cola.Front()
@@ -42,7 +42,7 @@ func TestArrayQueue_add(t *testing.T) {
 }
 
 func TestArrayQueue_remove(t *testing.T) {
-	cola := NewArrayQueue(2)
+	cola := New(2)
 	cola.Enqueue(10)
 	cola.Enqueue(20)
 
@@ -53,8 +53,8 @@ func TestArrayQueue_remove(t *testing.T) {
 		t.Errorf(mensaje_test, 10, removido1)
 	}
 
-	if cola.Length() != 1 {
-		t.Errorf(mensaje_test, 1, cola.Length())
+	if cola.Size() != 1 {
+		t.Errorf(mensaje_test, 1, cola.Size())
 	}
 
 	// 20 |

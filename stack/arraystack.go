@@ -13,7 +13,7 @@ type ArrayStack struct {
 	data     []int // slice
 }
 
-func NewArrayStack(capacidad int) ArrayStack {
+func New(capacidad int) ArrayStack {
 	return ArrayStack{
 		top:      -1,
 		size:     0,

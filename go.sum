@@ -1,2 +1,4 @@
-golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e h1:+WEEuIdZHnUeJJmEUjyYC2gfUMj69yZXw17EnHg/otA=
-golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e/go.mod h1:Kr81I6Kryrl9sr8s2FK3vxD90NdsKWRuOIl2O4CvYbA=
+github.com/ISCODIGO/go-ds v0.0.0-20241112004113-9d47b74a4e2a h1:ovuNeFePovrnYxTWClyGxnILlteoNf/4GapVKmcKTBI=
+github.com/ISCODIGO/go-ds v0.0.0-20241112004113-9d47b74a4e2a/go.mod h1:8sJb/oeY+zM82OCq+RffQAewc3bES38O9Pom8rmf5PY=
+golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f h1:XdNn9LlyWAhLVp6P/i8QYBW+hlyhrhei9uErw2B5GJo=
+golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f/go.mod h1:D5SMRVC3C2/4+F/DB1wZsLRnSNimn2Sp/NPsCrsv8ak=

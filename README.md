@@ -3,9 +3,10 @@ Estructuras de datos escritas en Go con las ideas surgidas del libro *Data Struc
 
 ## Estructuras
 - Pilas:
-    - ArrayStack
+    - ArrayStack (Stack con array)
+    - StackLL (Stack con lista enlazada)
 - Colas:
-    - ArrayQueue
+    - ArrayQueue (Queue con array)
 - Listas:
     - ArrayList
     - LinkedList

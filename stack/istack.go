@@ -1,5 +1,7 @@
 package stack
 
+import "errors"
+
 type Stack interface {
 	Clear()            // Limpiar la estructura -> O(1)
 	Push(e int) error  // Agregar un nuevo elemento (cima) -> O(1)
@@ -7,3 +9,8 @@ type Stack interface {
 	Pop() (int, error) // Mostrar el elemento de la cima. Remueve la cima actual -> O(1)
 	Size() int         // Cantidad de elementos en la pila -> O(1)
 }
+
+
+// Sugerencia: Go Effective
+var ErrStackUnderflow = errors.New("pila vacia")
+var ErrStackOverflow = errors.New("pila llena")

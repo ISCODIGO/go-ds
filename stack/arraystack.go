@@ -1,10 +1,5 @@
 package stack
 
-import "errors"
-
-// Sugerencia: Go Effective
-var ErrStackUnderflow = errors.New("pila vacia")
-var ErrStackOverflow = errors.New("pila llena")
 
 type ArrayStack struct {
 	top      int   // posicion de la cima
@@ -13,7 +8,7 @@ type ArrayStack struct {
 	data     []int // slice
 }
 
-func New(capacidad int) ArrayStack {
+func NewArrayStack(capacidad int) ArrayStack {
 	return ArrayStack{
 		top:      -1,
 		size:     0,

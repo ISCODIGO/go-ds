@@ -1,197 +1,214 @@
 package list
 
 import (
-	"errors"
+	"fmt"
 )
 
 type Node struct {
-	element int  // dato almacenado
-	next *Node   // enlace al siguiente nodo
+	Element int   // dato almacenado
+	Next    *Node // enlace al siguiente nodo
 }
 
 // Funcion que permite inicializar un objeto de tipo Node
-func NewNode(element int) (*Node) {
+func NewNode(element int) *Node {
 	return &Node{
-		element: element,
-		next: nil,
+		Element: element,
+		Next:    nil,
 	}
 }
 
+// Representa la lista enlazada
 type LinkedList struct {
-	size int  // la cantidad de nodos de la lista
-	curr *Node  // el nodo actual (el que se recorre actualmente)
-	head *Node  // un enlace al primer nodo
-	tail *Node	// un enlace al ultimo nodo
+	head *Node // referencia al primer nodo de la lista
+	tail *Node // referencia al último nodo de la lista
+	size int   // tamaño de la lista
 }
 
-// constructor (inicializador)
-func NewLinkedList() (*LinkedList) {
+func NewLinkedList() *LinkedList {
 	return &LinkedList{
-		size: 0,
-		curr: nil,
 		head: nil,
 		tail: nil,
+		size: 0,
 	}
 }
 
-
-func (lista LinkedList) isEmpty() (bool) {
-	return lista.head == nil
+func (list LinkedList) Size() int {
+	return list.size
 }
 
-// Remueve todos los nodos de la lista
-func (lista *LinkedList) Clear() {
-	// O(1)
-	lista.curr = nil
-	lista.head = nil
-	lista.tail = nil
-	lista.size = 0
+func (list LinkedList) IsEmpty() bool {
+	return list.head == nil
 }
 
-// Agrega un nodo al final de la lista (tail)
-func (lista *LinkedList) Append(e int) (node *Node) {
-	// O(1)
-	node = NewNode(e)
-
-	if lista.isEmpty() {
-		lista.head = node
-		lista.curr = node  // opcional: para no tener un current nil
-	} else {
-		lista.tail.next = node
-	}
-	
-	lista.tail = node
-	lista.size++
-	return node
+func (list *LinkedList) Clear() {
+	list.head = nil
+	list.tail = nil
+	list.size = 0
 }
 
-// Agrega un nodo desplazando al nodo actual (curr)
-func (lista *LinkedList) Insert(e int) (node *Node){
-	// O(n)
-	if lista.curr == lista.tail {		
-		return lista.Append(e)  // la funcionalidad ya existe
-	}
-
-	node = NewNode(e)
-	node.next = lista.curr
-
-	if lista.curr == lista.head {
-		// esto significa que hay que un nuevo head
-		lista.head = node
-	} else {
-		// nodos interiores
-		lista.Prev()  // O(n)
-		lista.curr.next = node
-	}
-
-	lista.size++
-	return node
+// Crear el primer nodo en la lista (privada)
+func (list *LinkedList) createFirstNode(element int) *Node {
+	newNode := NewNode(element)
+	list.head = newNode
+	list.tail = newNode
+	list.size = 1
+	return newNode
 }
 
-// Remueve el nodo actual (curr)
-func (lista *LinkedList) Remove() (node *Node, err error) {
-	if lista.isEmpty() {
-		err = ErrEmptyList
-		return  // como las salidas llevan nombre esto es posible
-	} 
-	
-	node = lista.curr
-
-	if lista.curr == lista.head {
-		// Si es head el eliminado
-		lista.curr = lista.curr.next
-		lista.head = lista.curr
-	} else {
-		// Cualquier otro nodo: encontrar el nodo previo a curr
-		lista.Prev()
-		lista.curr.next = lista.curr.next.next // eliminar el nodo: lista.curr.next
-		lista.curr = lista.curr.next  // opcional: para que no haga referencia a un nodo que "no existe"
+// Obtener el nodo previo a un nodo dado (privada)
+func (list *LinkedList) getPreviousNode(node *Node) (*Node, error) {
+	// si la lista esta vacia
+	if list.IsEmpty() {
+		return nil, ErrEmptyList
 	}
 
-	lista.size--
-	return node, err
+	// si el nodo es el primero no tiene previo
+	if list.head == node {
+		return nil, ErrOutOfRangeList
+	}
+
+	aux := list.head
+	for aux.Next != nil && aux.Next != node {
+		aux = aux.Next
+	}
+
+	if aux.Next == node {
+		return aux, nil
+	}
+	return nil, nil
 }
 
-// Coloca al [curr] en el nodo head
-func (lista *LinkedList) MoveToStart() {
-	if !lista.isEmpty() {
-		lista.curr = lista.head
+// Agregar un nuevo nodo al inicio de la lista
+func (list *LinkedList) AddHead(element int) *Node {
+	if list.IsEmpty() {
+		return list.createFirstNode(element)
 	}
+
+	newNode := NewNode(element)
+	newNode.Next = list.head
+	list.head = newNode
+	list.size++
+	return newNode
 }
 
-// Coloca [curr] en el tail
-func (lista *LinkedList) MoveToEnd() {
-	if !lista.isEmpty() {
-		lista.curr = lista.tail
+// Agregar un nuevo nodo al final de la lista
+func (list *LinkedList) AddTail(element int) *Node {
+	if list.IsEmpty() {
+		return list.createFirstNode(element)
 	}
+	newNode := NewNode(element)
+	list.tail.Next = newNode
+	list.tail = newNode
+	list.size++
+	return newNode
 }
 
-// Mueve [curr] una cantidad de nodos (pos) a partir de head
-func (lista *LinkedList) MoveToPos(pos int) (err error) {
-	if pos < 0 || pos >= lista.size {
-		err = errors.New("posicion fuera de rango")
-	} else {
-		lista.curr = lista.head
-		for i := 1; i <= pos; i++ {
-			lista.curr = lista.curr.next
-		}
+// Agregar un nodo después de un nodo específico
+func (list *LinkedList) Add(element int, node *Node) *Node {
+	if list.IsEmpty() || node == nil {
+		return list.createFirstNode(element)
 	}
-	return err
+
+	if node == list.tail {
+		return list.AddTail(element)
+	}
+
+	newNode := NewNode(element)
+	newNode.Next = node.Next
+	node.Next = newNode
+	list.size++
+	return newNode
 }
 
-// Retrocede un nodo
-func (lista *LinkedList) Prev() {
-	// O(n)
-	if lista.isEmpty() || lista.curr == lista.head {
-		return  // aqui return es una secuencia de escape
+// Eliminar el primer nodo de la lista
+func (list *LinkedList) RemoveHead() (int, error) {
+	if list.head == nil {
+		return 0, ErrEmptyList
 	}
 
-	temp := lista.head
-	for temp.next != lista.curr {
-		temp = temp.next
+	element := list.head.Element
+	list.head = list.head.Next
+	if list.head == nil {
+		list.tail = nil
 	}
-
-	lista.curr = temp
+	list.size--
+	return element, nil
 }
 
-// Se adelanta un nodo
-func (lista *LinkedList) Next() {
-	if lista.isEmpty() || lista.curr == lista.tail {
+// Eliminar el último nodo de la lista
+func (list *LinkedList) RemoveTail() (int, error) {
+	if list.IsEmpty() {
+		return 0, ErrEmptyList
+	}
+
+	if list.head == list.tail {
+		list.Clear()
+		return 0, nil
+	}
+
+	previous, err := list.getPreviousNode(list.tail)
+	if err != nil {
+		return 0, err
+	}
+
+	element := list.tail.Element
+	previous.Next = nil
+	list.tail = previous
+	list.size--
+	return element, nil
+}
+
+// Eliminar un nodo específico por valor
+func (list *LinkedList) Remove(element int) (err error) {
+	if list.IsEmpty() {
+		return ErrEmptyList
+	}
+
+	if list.head.Element == element {
+		_, err = list.RemoveHead()
 		return
 	}
 
-	lista.curr = lista.curr.next
-}
-
-func (lista LinkedList) Length() (int) {
-	return lista.size
-}
-
-func (lista LinkedList) CurrentPosition() (int) {
-	if lista.isEmpty() {
-		return -1
+	if list.tail.Element == element {
+		_, err = list.RemoveTail()
+		return
 	}
 
-	if lista.curr == lista.tail {
-		return lista.size - 1
+	current := list.head
+	for current.Next != nil && current.Next.Element != element {
+		current = current.Next
 	}
 
-	temp := lista.head
-	pos := 0
-	for temp.next != lista.curr {
-		temp = temp.next
-		pos++
+	if current.Next != nil {
+		current.Next = current.Next.Next
+		if current.Next == nil {
+			list.tail = current
+		}
+		list.size--
 	}
-
-	return pos
+	return
 }
 
-func (lista LinkedList) CurrentElement() (e int, err error) {
-	if lista.isEmpty() {
-		err = errors.New("lista vacia")
+// Mostrar los elementos de la lista enlazada
+func (list *LinkedList) ToString() string {
+	if list.IsEmpty() {
+		return ""
 	}
-	e = lista.curr.element
-	return e, err
+
+	result := ""
+	current := list.head
+	for current != nil {
+		result += fmt.Sprintf("%d -> ", current.Element)
+		current = current.Next
+	}
+
+	return result
 }
 
+func (list *LinkedList) GetHead() int {
+	return list.head.Element
+}
 
+func (list *LinkedList) GetTail() int {
+	return list.tail.Element
+}

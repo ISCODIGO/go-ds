@@ -3,53 +3,53 @@ package list
 import "errors"
 
 type List interface {
-	// Remove all contents from the list, so it is once again empty
+	// Eliminar todo el contenido de la lista, para que esté vacía de nuevo
 	Clear()
 
-	// Insert "it" at the current location
-	// The client must ensure that the list's capacity is not exceeded
+	// Insertar "it" en la ubicación actual
+	// El cliente debe asegurar que la capacidad de la lista no sea excedida
 	Insert(it int) bool
 
-	// Append "it" at the end of the list
-	// The client must ensure that the list's capacity is not exceeded
+	// Agregar "it" al final de la lista
+	// El cliente debe asegurar que la capacidad de la lista no sea excedida
 	Append(it int) bool
 
-	// Remove and return the current element
+	// Eliminar y retornar el elemento actual
 	Remove() (int, error)
 
-	// Set the current position to the start of the list
+	// Establecer la posición actual al inicio de la lista
 	MoveToStart()
 
-	// Set the current position to the end of the list
+	// Establecer la posición actual al final de la lista
 	MoveToEnd()
 
-	// Move the current position one step left, no change if already at beginning
+	// Mover la posición actual un paso a la izquierda, sin cambio si ya está al principio
 	Prev()
 
-	// Move the current position one step right, no change if already at end
+	// Mover la posición actual un paso a la derecha, sin cambio si ya está al final
 	Next()
 
-	// Return the number of elements in the list
+	// Retornar el número de elementos en la lista
 	Length() int
 
-	// Return the position of the current element
+	// Retornar la posición del elemento actual
 	CurrPos() int
 
-	// Set the current position to "pos"
+	// Establecer la posición actual a "pos"
 	MoveToPos(pos int) bool
 
-	// Return true if current position is at end of the list
+	// Retornar true si la posición actual está al final de la lista
 	IsAtEnd() bool
 
-	// Return the current element
+	// Retornar el elemento actual
 	GetValue() (int, error)
 
-	// Return true if the list is empty
+	// Retornar true si la lista está vacía
 	IsEmpty() bool
 }
 
-// Errores comunes en las listas
-var ErrEmptyList = errors.New("lista vacia")
-var ErrFullList = errors.New("lista llena")
-var ErrOutOfRangeList = errors.New("fuera de rango")
+// Errores comunes en listas
+var ErrEmptyList = errors.New("empty list")
+var ErrFullList = errors.New("full list")
+var ErrOutOfRangeList = errors.New("out of range")
 var ErrNoSuchElement = errors.New("no such element")

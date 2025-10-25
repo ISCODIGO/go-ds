@@ -3,13 +3,15 @@ package list
 import "errors"
 
 type List interface {
-	Clear()  // O(1)
-	Size() // O(1)
-	IsEmpty() bool  // O(1)
+	Clear()        // O(1)
+	Size() int     // O(1)
+	IsEmpty() bool // O(1)
 
-	Append(e int)  // O(1)
-	Insert(e int)  // O(n)
-	Remove()  // O(n)
+	AddHead(e int) *Node      // O(1)
+	AddTail(e int) *Node      // O(1)
+	RemoveHead() (int, error) // O(1)
+	RemoveTail() (int, error) // O(n)
+	Remove(e int) error       // O(n)
 }
 
 // Errores comunes en las listas

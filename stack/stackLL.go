@@ -35,7 +35,8 @@ func (pila StackLL) Top() (e int, err error) {
 		return // devuelve e y err
 	}
 
-	return pila.data.GetHead(), nil
+	headValue := pila.data.GetHead()
+	return headValue, nil
 }
 
 func (pila *StackLL) Pop() (e int, err error) {
@@ -50,5 +51,5 @@ func (pila *StackLL) Pop() (e int, err error) {
 }
 
 func (pila StackLL) Size() int {
-	return pila.data.Size()
+	return pila.data.Length()
 }

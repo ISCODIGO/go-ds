@@ -260,7 +260,7 @@ func (list *LinkedList) RemoveHead() (int, error) {
 	element := list.head.Element
 	list.head = list.head.Next
 
-	// actualizacion de los punteros
+	// si la lista queda vacia
 	if list.head == nil {
 		list.tail = nil
 		list.current = nil
